@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 import time
 from spotify import getwindow
+from processid import getSong
 
 consumer_key = ""
 consumer_secret = ""
@@ -38,7 +39,7 @@ auth.set_access_token(key, secret)
 
 
 while True:
-    bio = getwindow()
+    bio = getSong()
     print(bio)
     api.update_profile(
         description = bio

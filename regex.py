@@ -7,7 +7,7 @@ spotifyRegex = re.compile(r'''(
 
 matches = []
 
-for groups in spotifyRegex.findall(str(titles)):
-    matches.append(groups)
+# for groups in spotifyRegex.findall(str(titles)):
+#     matches.append(groups)
 
 print(spotifyRegex.findall(str(titles)))
