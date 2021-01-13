@@ -40,43 +40,85 @@ auth.set_access_token(key, secret)
 bio = "value"
 bio1 = "value1"
 closed = True
+argument = 4
+argument1 = 4
+
+def valueswitcher():
+    switcher = {
+        0: "Playing",
+        1: "Closed",
+        2: "Paused",
+        3: "Not Playing"
+    }
+    return switcher.get(argument, "nothing")
 
 while True:
+    argument1 = argument
     time.sleep(5)
     try:
         bio = getSong()
         while bio != bio1:
             print(bio)
             api.update_profile(
-                description = bio
+                description=bio
             )
             bio1 = bio
         else:
             continue
     except SpotifyClosed as error:
-        print('spotify closed')
-        if closed == False:
-            api.update_profile(
-                description = "Spotify Closed"
-            )
-            closed = True
-        elif closed == True:
-            continue
+        argument = 1
     except SpotifyPaused as error:
-        print('spotify paused')
-        if closed == False:
-            api.update_profile(
-                description = "Spotify Paused"
+        argument = 2
+
+while argument == 1:
+    while argument != argument1:
+        api.update_profile(
+            description = "Spotify Closed!"
             )
-            closed = True
-        elif closed == True:
-            continue
-    except SpotifyNotRunning as error:
-        print('spotify not running')
-        if closed == False:
-            api.update_profile(
-                description = "Spotify Not Running"
+        argument1 = 1
+while argument == 2:
+    while argument != argument1:
+        api.update_profile(
+            description = "Spotify Paused!"
             )
-            closed = True
-        elif closed == True:
-            continue
+        argument1 = 2
+
+# while True:
+#     time.sleep(5)
+#     try:
+#         bio = getSong()
+#         while bio != bio1:
+#             print(bio)
+#             api.update_profile(
+#                 description = bio
+#             )
+#             bio1 = bio
+#         else:
+#             continue
+#     except SpotifyClosed as error:
+#         print('spotify closed')
+#         if closed == False:
+#             api.update_profile(
+#                 description = "Spotify Closed"
+#             )
+#             closed = True
+#         elif closed == True:
+#             continue
+#     except SpotifyPaused as error:
+#         print('spotify paused')
+#         if closed == False:
+#             api.update_profile(
+#                 description = "Spotify Paused"
+#             )
+#             closed = True
+#         elif closed == True:
+#             continue
+#     except SpotifyNotRunning as error:
+#         print('spotify not running')
+#         if closed == False:
+#             api.update_profile(
+#                 description = "Spotify Not Running"
+#             )
+#             closed = True
+#         elif closed == True:
+#             continue
