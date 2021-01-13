@@ -5,6 +5,9 @@ import time
 from spotify import getwindow
 from processid import getSong
 from SwSpotify import SpotifyClosed, SpotifyNotRunning, SpotifyPaused
+from tkinter import *
+from tkinter import messagebox
+import keyboard
 
 consumer_key = ""
 consumer_secret = ""
@@ -43,6 +46,44 @@ closed = True
 argument = 4
 argument1 = 4
 
+
+def run():
+    bio = "value"
+    bio1 = "value1"
+    argument = 4
+    argument1 = 4
+    while True:
+        argument1 = argument
+        time.sleep(5)
+        try:
+            bio = getSong()
+            while bio != bio1:
+                print(bio)
+                api.update_profile(
+                    description=bio
+                )
+                bio1 = bio
+            else:
+                continue
+        except SpotifyClosed as error:
+            argument = 1
+        except SpotifyPaused as error:
+            argument = 2
+
+    while argument == 1:
+        while argument != argument1:
+            api.update_profile(
+                description = "Spotify Closed!"
+                )
+            argument1 = 1
+    while argument == 2:
+        while argument != argument1:
+            api.update_profile(
+                description = "Spotify Paused!"
+                )
+            argument1 = 2
+
+
 def valueswitcher():
     switcher = {
         0: "Playing",
@@ -52,36 +93,34 @@ def valueswitcher():
     }
     return switcher.get(argument, "nothing")
 
-while True:
-    argument1 = argument
-    time.sleep(5)
-    try:
-        bio = getSong()
-        while bio != bio1:
-            print(bio)
-            api.update_profile(
-                description=bio
-            )
-            bio1 = bio
-        else:
-            continue
-    except SpotifyClosed as error:
-        argument = 1
-    except SpotifyPaused as error:
-        argument = 2
+def end():
+    api.update_profile(
+        description = "Spotify is closed!\n\n\nhttps://github.com/tpby2005/spotify-to-twitter"
+        )
+    quit()
 
-while argument == 1:
-    while argument != argument1:
-        api.update_profile(
-            description = "Spotify Closed!"
-            )
-        argument1 = 1
-while argument == 2:
-    while argument != argument1:
-        api.update_profile(
-            description = "Spotify Paused!"
-            )
-        argument1 = 2
+while True:
+    if keyboard.is_pressed(']'):
+        gui()
+    else:
+        run()
+
+def gui():
+    tkWindow = Tk()  
+    tkWindow.geometry('400x150')  
+    tkWindow.title('Spotify To Twitter')
+
+    button = Button(tkWindow,
+        text = 'Quit',
+        command = end)  
+    button2 = Button(tkWindow,
+        text = 'Run',
+        command = run)  
+    button.pack()
+    button2.pack()
+
+    tkWindow.mainloop()
+    tkWindow.destroy()
 
 # while True:
 #     time.sleep(5)
